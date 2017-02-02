@@ -1,0 +1,28 @@
+{
+  "name": "p2pspider-mariadb",
+  "version": "1.0.0",
+  "description": "p2pspider + mariasql = p2pspider-mariadb",
+  "main": "index.js",
+  "dependencies": {
+    "p2pspider": "git+https://github.com/dontcontactme/p2pspider.git",
+    "mariasql": "^0.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Red54/p2pspider-mariadb.git"
+  },
+  "keywords": [
+    "p2pspider",
+    "mariadb"
+  ],
+  "author": "谢致邦 (XIE Zhibang)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Red54/p2pspider-mariadb/issues"
+  },
+  "homepage": "https://github.com/Red54/p2pspider-mariadb#readme"
+}
