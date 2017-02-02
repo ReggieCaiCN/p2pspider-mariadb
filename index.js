@@ -24,14 +24,16 @@ const p2p = P2PSpider({
 })
 
 p2p.ignore((infohash, rinfo, callback) => {
+	let exist = false
 	c.query(infosel([infohash]), (e, res) => {
 		if (e) throw e
 		if (res[0]) {
+			exist = true
 			c.query(infoupd([res[0].id]), (e, res) => { if (e) throw e })
 			c.query(freqins([res[0].id]), (e, res) => { if (e) throw e })
-			callback(true)
-		} else callback(false)
+		}
 	})
+	callback(exist)
 	console.log('Get: ' + infohash)
 })
 
