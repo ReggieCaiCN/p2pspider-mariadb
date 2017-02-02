@@ -1,6 +1,6 @@
 {
   "name": "p2pspider-mariadb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "p2pspider + mariasql = p2pspider-mariadb",
   "main": "index.js",
   "dependencies": {
