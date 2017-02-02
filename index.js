@@ -38,30 +38,33 @@ p2p.ignore((infohash, rinfo, callback) => {
 })
 
 p2p.on('metadata', metadata => {
-	c.query(infosel([metadata.infohash]), (e, res) => {
-		if (e) throw e
-		if (res[0]) {
-			c.query(infoupd([res[0].id]), (e, res) => { if (e) throw e })
-			c.query(freqins([res[0].id]), (e, res) => { if (e) throw e })
-		} else {
-			if (metadata.info.files) {
-				var file = metadata.info.files.length
-				var length = metadata.info.files.reduce((pre, cur) => pre + cur.length, 0)
-			} else {
-				var file = 0
-				var length = metadata.info.length
-			}
-			c.query(infoins([metadata.infohash, metadata.info.name.toString(), file, length]), (e, res) => {
-				if (e) throw e
-				c.query(freqins([res.info.insertId]), (e, res) => { if (e) throw e })
-				if (metadata.info.files)
-					metadata.info.files.forEach((f) => {
-						c.query(fileins([res.info.insertId, f.path.toString(), f.length]), (e, res) => { if (e) throw e })
-					})
-			})
-			console.log('Add: ' + metadata.infohash)
+	if (metadata.info.files) {
+		var file = metadata.info.files.length
+		var length = metadata.info.files.reduce((pre, cur) => pre + cur.length, 0)
+	} else {
+		var file = 0
+		var length = metadata.info.length
+	}
+	c.query(infoins([metadata.infohash, metadata.info.name.toString(), file, length]), (e, res) => {
+		if (e) {
+			if (1062 == e.code) {
+				c.query(infosel([metadata.infohash]), (e, res) => {
+					if (e) throw e
+					if (res[0]) {
+						c.query(infoupd([res[0].id]), (e, res) => { if (e) throw e })
+						c.query(freqins([res[0].id]), (e, res) => { if (e) throw e })
+					}
+				})
+				return
+			} else throw e
 		}
+		c.query(freqins([res.info.insertId]), (e, res) => { if (e) throw e })
+		if (metadata.info.files)
+			metadata.info.files.forEach((f) => {
+				c.query(fileins([res.info.insertId, f.path.toString(), f.length]), (e, res) => { if (e) throw e })
+			})
 	})
+	console.log('Add: ' + metadata.infohash)
 })
 
 p2p.listen(6881, '0.0.0.0')
