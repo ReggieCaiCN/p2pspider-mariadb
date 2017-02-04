@@ -1,11 +1,13 @@
 {
   "name": "p2pspider-mariadb",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "p2pspider + mariasql = p2pspider-mariadb",
   "main": "index.js",
   "dependencies": {
-    "p2pspider": "git+https://github.com/dontcontactme/p2pspider.git",
-    "mariasql": "^0.2.6"
+    "iconv-lite": "^0.4.15",
+    "jschardet": "^1.4.1",
+    "mariasql": "^0.2.6",
+    "p2pspider": "git+https://github.com/dontcontactme/p2pspider.git"
   },
   "devDependencies": {},
   "scripts": {
