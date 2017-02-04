@@ -50,7 +50,17 @@ p2p.on('metadata', metadata => {
 		let path = null
 		files = metadata.info.files.reduce((pre, cur) => {
 			length += cur.length
-			path = cur['path.utf-8'] || decode(cur.path) + '//' + cur.length
+			if (cur['path.utf-8'])
+				path = cur['path.utf-8'].reduce((pre, cur) => {
+					if (pre) return pre + '/' + cur
+					else return cur
+				}, null)
+			else
+				path = cur.path.reduce((pre, cur) => {
+					if (pre) return pre + '/' + decode(cur)
+					else return decode(cur)
+				}, null)
+			path += '//' + cur.length
 			if (pre) return pre + '///' + path
 			else return path
 		}, null)
