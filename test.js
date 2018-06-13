@@ -14,7 +14,7 @@ const c = new Client({
 })
 
 const infosel = c.prepare('SELECT id FROM info WHERE infohash = ?')
-const infoins = c.prepare('INSERT INTO info (infohash, name, filenum, length) VALUES (?, ?, ?, ?)')
+const infoins = c.prepare('INSERT INTO info (infohash, name, filenum, length, files) VALUES (?, ?, ?, ?, ?)')
 const infoupd = c.prepare('UPDATE info SET freq = freq + 1 WHERE id = ?')
 
 const p2p = P2PSpider({
@@ -45,7 +45,27 @@ p2p.on('metadata', metadata => {
 	let length = 0
 	let files = null
 	const name = metadata.info['name.utf-8'] || decode(metadata.info.name)
-	c.query(infoins([metadata.infohash, name, filenum, length]), (e, res) => {
+	if (metadata.info.files) {
+		filenum = metadata.info.files.length
+		let path = null
+		files = metadata.info.files.reduce((pre, cur) => {
+			length += cur.length
+			if (cur['path.utf-8'])
+				path = cur['path.utf-8'].reduce((pre, cur) => {
+					if (pre) return pre + '/' + cur
+					else return cur
+				}, null)
+			else
+				path = cur.path.reduce((pre, cur) => {
+					if (pre) return pre + '/' + decode(cur)
+					else return decode(cur)
+				}, null)
+			path += '//' + cur.length
+			if (pre) return pre + '///' + path
+			else return path
+		}, null)
+	} else length = metadata.info.length
+	c.query(infoins([metadata.infohash, name, filenum, length, files]), (e, res) => {
 		if (e) {
 			if (1062 == e.code) {
 				c.query(infosel([metadata.infohash]), (e, res) => {

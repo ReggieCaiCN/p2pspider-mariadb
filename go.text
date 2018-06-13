@@ -1,0 +1,5 @@
+npm install -g pm2　#centos安装pm2服务
+pm2 start /home/tools/nodejs/p2pspider/index.js --max-memory-restart 256M -i 2 -s #以2个进程限制256M内存运行p2pspider
+pm2 stop all #停止所有pm2进程
+pm2 monit #查看pm2进程运行状态
+pm2 show index #查看index项目运行状态

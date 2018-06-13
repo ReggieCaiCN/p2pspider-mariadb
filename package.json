@@ -7,7 +7,7 @@
     "iconv-lite": "^0.4.15",
     "jschardet": "^1.4.1",
     "mariasql": "^0.2.6",
-    "p2pspider": "git+https://github.com/dontcontactme/p2pspider.git"
+    "p2pspider": "^0.0.4"
   },
   "devDependencies": {},
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Red54/p2pspider-mariadb.git"
+    "url": "https://github.com/Red54/p2pspider-mariadb.git"
   },
   "keywords": [
     "p2pspider",
