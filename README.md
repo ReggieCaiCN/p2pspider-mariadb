@@ -5,13 +5,13 @@
     vi index.js
     node index.js
 
-#mysql
-use db;
-select * from info orderby id desc limit 10;
+# mysql
+    use db;
+    select * from info orderby id desc limit 10;
 
-#error
-pm2 log
-pm2 monit
+# error
+    pm2 log
+    pm2 monit
 
-rm -rf node_modules
-npm install	
+    rm -rf node_modules
+    npm install	
